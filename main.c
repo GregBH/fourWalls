@@ -50,6 +50,7 @@ int main()
 	exit(EXIT_SUCCESS);
 }
 
+//Dirty
 void drawfloor(struct Sprite* sprite)
 {
 	int x_grid_size = (WIDTH / sprite->w);
