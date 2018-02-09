@@ -18,12 +18,39 @@ int frameTime;
 
 int main()
 {
-	struct Display* Game_Display = Display_Init(title, WIDTH, HEIGHT, RENDER_FLAGS, IMG_FLAGS);
-	Display_Clear(Game_Display, &ClearColor);
-	Display_Present(Game_Display);
-	SDL_Delay(2000);
+	if(SDL_Init(SDL_INIT_VIDEO) != 0){
+		fprintf(stderr, "SDL coulde not initialize, SDL_ERROR: %s\n", SDL_GetError());
+		exit(EXIT_FAILURE);
+	}
 
+	struct Display* Game_Display = Display_Init(title, WIDTH, HEIGHT, RENDER_FLAGS, IMG_FLAGS);
+	SDL_bool done = SDL_FALSE;
+	SDL_Event event;
+	struct Character* player = Character_Create(Game_Display->renderer, 0, 0, 64, 64, "res/placeholder_sprite.png");
+
+	while(Game_Display->display_close != SDL_TRUE){
+
+		frameStart = SDL_GetTicks();
+
+		if(SDL_PollEvent(&event)){
+			Character_PollEvents(player, &event);
+			Display_PollEvents(Game_Display, &event);
+		}
+
+		Character_Update(player);
+		Display_Clear(Game_Display, &ClearColor);
+		Character_Draw(player, Game_Display->renderer);
+		Display_Present(Game_Display);
+
+		frameTime = SDL_GetTicks() - frameStart;
+		if(FRAME_DELAY > frameTime){
+			SDL_Delay(FRAME_DELAY - frameTime);
+		}
+	
+	} 
 	Display_Quit(Game_Display);
+
+	SDL_Quit();
 	
 	exit(EXIT_SUCCESS);
 }
