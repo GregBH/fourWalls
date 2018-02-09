@@ -13,8 +13,8 @@ struct Sprite {
 };
 
 
-struct Sprite* CreateSprite(SDL_Renderer*, int, int, int, int, const char*);
-void DrawSprite(struct Sprite*, SDL_Renderer*);
-void FreeSprite(struct Sprite*);
+struct Sprite* Sprite_Create(SDL_Renderer*, int, int, int, int, const char*);
+void Sprite_Draw(struct Sprite*, SDL_Renderer*);
+void Sprite_Free(struct Sprite*);
 
 #endif
