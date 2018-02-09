@@ -2,12 +2,10 @@
 
 struct Display* Display_Init(const char* title, int width, int height, Uint32 render_flags, int image_flags)
 {
-	if(SDL_Init(SDL_INIT_VIDEO) != 0){
-		fprintf(stderr, "SDL coulde not initialize, SDL_ERROR: %s\n", SDL_GetError());
-		exit(EXIT_FAILURE);
-	}
 
 	struct Display* tmpDisplay = (struct Display*)malloc(sizeof(struct Display));
+	tmpDisplay->display_close = SDL_FALSE;
+
 
 	tmpDisplay->window = SDL_CreateWindow(title, 
 		SDL_WINDOWPOS_CENTERED,
@@ -37,6 +35,21 @@ struct Display* Display_Init(const char* title, int width, int height, Uint32 re
     }
 
 	return tmpDisplay;
+}
+
+void Display_PollEvents(struct Display* tmpDisplay, SDL_Event* event)
+{
+	if(event->type == SDL_KEYDOWN){
+		switch(event->key.keysym.sym){
+			case SDLK_ESCAPE:
+				tmpDisplay->display_close = SDL_TRUE;
+				break;
+		}
+	}else if(event->type == SDL_QUIT){
+		tmpDisplay->display_close = SDL_TRUE;
+	}
+
+	return;
 }
 
 void Display_Clear(struct Display* display, SDL_Color* clear_color)
