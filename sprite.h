@@ -13,7 +13,7 @@ struct Sprite {
 };
 
 
-struct Sprite* CreateSprite(int, int, int, int, const char*);
+struct Sprite* CreateSprite(SDL_Renderer*, int, int, int, int, const char*);
 void DrawSprite(struct Sprite*, SDL_Renderer*);
 void FreeSprite(struct Sprite*);
 

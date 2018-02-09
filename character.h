@@ -10,10 +10,10 @@ struct Character{
     SDL_bool moveIdle, moveUp, moveDown, moveLeft, moveRight;
 };
 
-struct Character* CreateCharacter(int, int, int, int, const char*);
-void DrawCharacter(struct Character*);
-void PollKeyEvents(struct Character*, SDL_Event*);
-void Movement(struct Character*);
-void FreeCharacter(struct Character*);
+struct Character* Character_Create(SDL_Renderer*, int, int, int, int, const char*);
+void Character_Draw(struct Character*, SDL_Renderer*);
+void Character_PollEvents(struct Character*, SDL_Event*);
+void Character_Update(struct Character*);
+void Character_Free(struct Character*);
 
 #endif

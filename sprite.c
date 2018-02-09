@@ -2,7 +2,7 @@
 
 const char* _placeHolder = "res/placeholder_sprite.png";
 
-struct Sprite* CreateSprite(int x, int y, int w, int h, const char* filename)
+struct Sprite* CreateSprite(SDL_Renderer* renderer, int x, int y, int w, int h, const char* filename)
 {
     struct Sprite* tmpSprite = (struct Sprite*)malloc(sizeof(struct Sprite));
     tmpSprite->x = x;
@@ -21,9 +21,7 @@ struct Sprite* CreateSprite(int x, int y, int w, int h, const char* filename)
         }
     }
 
-	SDL_SetColorKey(surface, SDL_TRUE, SDL_MapRGB(surface->format, 0xff, 0xff, 0xff));
-
-    tmpSprite->texture = SDL_CreateTextureFromSurface(Win_Rend.renderer, surface);
+    tmpSprite->texture = SDL_CreateTextureFromSurface(renderer, surface);
 
     if(tmpSprite->texture == NULL){
         fprintf(stderr, "Failed to create texture from surface! SDL_Error: %s\n", SDL_GetError());
