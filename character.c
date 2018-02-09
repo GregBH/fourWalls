@@ -1,11 +1,11 @@
 #include "character.h"
 
-int _speed = 6;
+int _speed = 8;
 
 struct Character* Character_Create(SDL_Renderer* renderer, int x, int y, int w, int h, const char* filename)
 {
     struct Character* tmpCharacter = (struct Character*)malloc(sizeof(struct Character));
-    tmpCharacter->sprite    = CreateSprite(renderer, x, y, w, h, filename);
+    tmpCharacter->sprite    = Sprite_Create(renderer, x, y, w, h, filename);
     tmpCharacter->moveIdle  = SDL_TRUE;
     tmpCharacter->moveUp    = SDL_FALSE;
     tmpCharacter->moveDown  = SDL_FALSE;
@@ -18,14 +18,13 @@ struct Character* Character_Create(SDL_Renderer* renderer, int x, int y, int w, 
 
 void Character_Draw(struct Character* obj, SDL_Renderer* renderer)
 {
-    DrawSprite(obj->sprite, renderer);
-    
+    Sprite_Draw(obj->sprite, renderer);
+
     return;
 }
 
 void Character_PollEvents(struct Character* obj, SDL_Event* event)
 {
-    //TODO: Smoother Movement, Decide between Fluid or Step
     if(event->type == SDL_KEYDOWN){
         switch(event->key.keysym.sym){
             case SDLK_UP:
@@ -40,9 +39,9 @@ void Character_PollEvents(struct Character* obj, SDL_Event* event)
             case SDLK_RIGHT:
                 obj->moveRight = SDL_TRUE;
                 break;
-            }
-    
+        }
     }
+
     if(event->type == SDL_KEYUP){
         switch(event->key.keysym.sym){
             case SDLK_UP:
@@ -57,8 +56,8 @@ void Character_PollEvents(struct Character* obj, SDL_Event* event)
             case SDLK_RIGHT:
                 obj->moveRight = SDL_FALSE;
                 break;
-            }
-    }   
+        }
+    }  
 
     return;
 }
@@ -87,7 +86,7 @@ void Character_Update(struct Character* obj)
 
 void Character_Free(struct Character* obj)
 {
-    FreeSprite(obj->sprite);
+    Sprite_Free(obj->sprite);
     free(obj);
 
     return;
